@@ -1,5 +1,5 @@
 // src/gpt.js
-import apiKey from './api';
+import apiKey from './api.js';
 
 export async function getGPTResponse(promptText) {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
