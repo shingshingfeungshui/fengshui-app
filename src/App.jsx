@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Lunar } from 'lunar-javascript';
+import './App.css';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -27,18 +28,12 @@ function App() {
 
     const { name, birthDate, birthTime, location, unknownTime } = formData;
 
-    // 檢查表單完整性
     if (!name || !birthDate || (!birthTime && !unknownTime) || !location) {
       setError('請填寫所有欄位，或選擇「唔知道出世時間」。');
       return;
     }
 
-    // 處理時間
-    let time = birthTime;
-    if (unknownTime) {
-      time = '12:00'; // 中午12點為預設時間
-    }
-
+    let time = unknownTime ? '12:00' : birthTime;
     const [year, month, day] = birthDate.split('-').map(Number);
     const [hour, minute] = time.split(':').map(Number);
 
@@ -55,47 +50,44 @@ function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#1a1a1a', color: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: '2rem' }}>
-      <h1 style={{ fontSize: '1.8rem', textAlign: 'center' }}>
-        丞丞用奇門遁甲幫你分析（免費版）
-      </h1>
-      <p style={{ fontSize: '0.9rem', color: '#ccc', marginBottom: '1rem' }}>
+    <div className=".container">
+      <h1>丞丞用奇門遁甲幫你分析（免費版）</h1>
+      <p className="description">
         本頁丞丞會使用「奇門遁甲」幫你做一個命理簡單性格分析，準確度僅供參考。
       </p>
 
-      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px' }}>
-        <div style={{ marginBottom: '1rem' }}>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-group">
           <label>姓名：</label>
-          <input type="text" name="name" value={formData.name} onChange={handleChange} style={inputStyle} />
+          <input type="text" name="name" value={formData.name} onChange={handleChange} className="input" />
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="form-group">
           <label>出生日期 (YYYY-MM-DD)：</label>
-          <input type="date" name="birthDate" value={formData.birthDate} onChange={handleChange} style={inputStyle} />
+          <input type="date" name="birthDate" value={formData.birthDate} onChange={handleChange} className="input" />
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="form-group">
           <label>出生時間 (HH:mm)：</label>
-          <input type="time" name="birthTime" value={formData.birthTime} onChange={handleChange} disabled={formData.unknownTime} style={inputStyle} />
-          <div>
-            <label>
-              <input type="checkbox" name="unknownTime" checked={formData.unknownTime} onChange={handleChange} /> 唔知道出生時間（系統會預設為中午12:00，準確度約 70%）
-            </label>
-          </div>
+          <input type="time" name="birthTime" value={formData.birthTime} onChange={handleChange} disabled={formData.unknownTime} className="input" />
+          <label className="checkbox-label">
+            <input type="checkbox" name="unknownTime" checked={formData.unknownTime} onChange={handleChange} />
+            唔知道出生時間（系統會預設為中午12:00，準確度約 70%）
+          </label>
         </div>
 
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="form-group">
           <label>出生地點：</label>
-          <input type="text" name="location" value={formData.location} onChange={handleChange} style={inputStyle} />
+          <input type="text" name="location" value={formData.location} onChange={handleChange} className="input" />
         </div>
 
-        {error && <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
+        {error && <p className="error">{error}</p>}
 
-        <button type="submit" style={buttonStyle}>提交</button>
+        <button type="submit" className="button">提交</button>
       </form>
 
       {bazi && (
-        <div style={{ marginTop: '2rem', backgroundColor: '#333', padding: '1rem 2rem', borderRadius: '8px', textAlign: 'left' }}>
+        <div className="result">
           <h3>🧭 產生八字：</h3>
           <p>出生年柱：{bazi.year}</p>
           <p>出生月柱：{bazi.month}</p>
@@ -110,23 +102,5 @@ function App() {
     </div>
   );
 }
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.5rem',
-  borderRadius: '4px',
-  border: '1px solid #ccc',
-  marginTop: '0.25rem'
-};
-
-const buttonStyle = {
-  padding: '10px 20px',
-  backgroundColor: '#4CAF50',
-  color: '#fff',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '16px'
-};
 
 export default App;
