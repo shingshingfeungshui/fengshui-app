@@ -1,5 +1,5 @@
 // src/gpt.js
-import apiKey from './api.js';
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
 export async function getGPTResponse(promptText) {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -21,8 +21,8 @@ export async function getGPTResponse(promptText) {
           content: promptText
         }
       ],
-      temperature: 0.8, // 微調令回覆更自然有變化
-      max_tokens: 500    // 🚀 加長回覆限制
+      temperature: 0.8,
+      max_tokens: 500
     })
   });
 

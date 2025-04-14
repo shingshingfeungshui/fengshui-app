@@ -59,6 +59,7 @@ function App() {
     // 構造 prompt 字串，注意可以自訂系統設定後續 GPT 分析角度（奇門遁甲）
     const prompt = `姓名：${name}\n八字：${baziData.year}年 ${baziData.month}月 ${baziData.day}日 ${baziData.time}時\n請根據以上八字，用奇門遁甲角度，簡單分析性格特質，請用中文回答，大概200-300字。`;
 
+
     try {
       const gptResult = await getGPTResponse(prompt);
       setGptText(gptResult);
